@@ -1,16 +1,9 @@
 // src/MyApp.jsx
 import Table from "./Table";
 import Form from "./Form";
-
 import React, { useState } from "react";
 
-function Form() {
-  const [person, setPerson] = useState({
-    name: "",
-    job: ""
-  });
-}
-export default Form;
+export default MyApp;
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);
@@ -22,6 +15,10 @@ function MyApp() {
     setCharacters(updated);
   }
 
+  function updateList(person) {
+    setCharacters([...characters, person]);
+  }
+
   return (
     <div className="container">
       <Table
@@ -31,4 +28,5 @@ function MyApp() {
       <Form />
     </div>
   );
+  
 }
