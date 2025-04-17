@@ -16,21 +16,32 @@ const users = {
   ]
 };
 
-// ---- HELPER FUNCTION TO FILTER BY NAME ----
+// ---- HELPER FUNCTIONS ----
 const findUserByName = (name) => {
   return users["users_list"].filter(
     (user) => user["name"] === name
   );
 };
 
+const findUserById = (id) => {
+  return users["users_list"].find(
+    (user) => user["id"] === id
+  );
+};
+
+const addUser = (user) => {
+  users["users_list"].push(user);
+  return user;
+};
+
 // ---- ROUTES ----
 
-// Root route
+// Hello World
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// Users route (with optional filtering)
+// GET /users?name=Mac
 app.get("/users", (req, res) => {
   const name = req.query.name;
   if (name !== undefined) {
@@ -42,7 +53,26 @@ app.get("/users", (req, res) => {
   }
 });
 
-// Start the server
+// GET /users/:id
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+  const result = findUserById(id);
+
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(result);
+  }
+});
+
+// POST /users
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  addUser(userToAdd);
+  res.status(200).send(); // or res.send(userToAdd);
+});
+
+// Start server
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
