@@ -74,25 +74,20 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const user = req.body;
-
-  // Generate a random ID
-  user.id = Math.floor(Math.random() * 1000000);
-
-  users_list.push(user);
-
-  res.status(201).json(user); // Send back the user with the new ID
+  user.id = Math.floor(Math.random() * 1000000).toString(); // ensure string ID
+  users["users_list"].push(user);
+  res.status(201).json(user);
 });
 
-
 app.delete("/users/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = users_list.findIndex(user => user.id === id);
+  const id = req.params.id;
+  const index = users["users_list"].findIndex(user => user.id === id);
 
   if (index !== -1) {
-    users_list.splice(index, 1);
-    res.sendStatus(204); // No Content
+    users["users_list"].splice(index, 1);
+    res.sendStatus(204);
   } else {
-    res.sendStatus(404); // Not Found
+    res.sendStatus(404);
   }
 });
 
