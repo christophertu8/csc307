@@ -9,18 +9,20 @@ function Form(props) {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    if (name === "job")
-      setPerson({ name: person["name"], job: value });
-    else setPerson({ name: value, job: person["job"] });
+    setPerson((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   }
 
-  function submitForm() {
-    props.handleSubmit(person);
-    setPerson({ name: "", job: "" });
+  function submitForm(event) {
+    event.preventDefault(); // Prevent page reload
+    props.handleSubmit(person); // Call parent handler with user data
+    setPerson({ name: "", job: "" }); // Reset form
   }
 
   return (
-    <form>
+    <form onSubmit={submitForm}>
       <label htmlFor="name">Name</label>
       <input
         type="text"
@@ -37,7 +39,7 @@ function Form(props) {
         value={person.job}
         onChange={handleChange}
       />
-      <input type="button" value="Submit" onClick={submitForm} />
+      <button type="submit">Submit</button>
     </form>
   );
 }

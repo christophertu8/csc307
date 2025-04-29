@@ -11,5 +11,8 @@
   "description": "",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "mongodb": "^6.16.0"
+  }
 }
